@@ -84,6 +84,7 @@ class TaskManager implements Serializable {
             date = validateDate();
             time = validateTime();
             task.setDate(date);
+            task.setTime(time);
           }
       }
          if(taskExists == false) {
@@ -96,6 +97,7 @@ class TaskManager implements Serializable {
         LocalDate date = validateDate();
         LocalTime time = validateTime();
         taskStorage.add(new Task(title, date, time));
+        insertionSort();
     } 
   
     public void  changeDate() {						                                                 //This method changes the date of 
