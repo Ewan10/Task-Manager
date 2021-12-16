@@ -15,24 +15,33 @@ class Task implements Serializable {
         this.date = date;
         this.time = time;
     }
+
     public String getTitle() {
         return title;
     }
+
     public void setTitle(String s) {
         title = title + s;
-    }   
+    }
+
     public LocalDate getDate() {
         return date;
-    } 
+    }
+
     public void setDate(LocalDate s) {
         date = s;
     }
+
     public void setTime(LocalTime t) {
         time = t;
     }
+
     public void setStatus(String s) {
         status = s;
     }
-    public void print() { System.out.println("title: " + title + status + " date: " + 
-                        date + " " + time); }
+
+    public void print() {
+        System.out.println("title: " + title + status + " date: " +
+                date + " " + time);
+    }
 }
