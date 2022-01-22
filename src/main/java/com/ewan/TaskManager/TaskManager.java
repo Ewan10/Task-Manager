@@ -1,37 +1,39 @@
 package com.ewan.TaskManager;
 
 import java.util.*;
-import java.util.regex.*;
+//import java.util.regex.*;
 import java.io.*;
-import java.time.*;
+//import java.time.*;
 
 class TaskManager implements Serializable {
   // private static final long serialversionUID = 1L;
   private List<Task> taskStorage = new ArrayList<Task>();
 
   /***
-   *  This method compares the date of a stored object with the date of today from the LocalDate object. It is used by the dueToday method.
+   *  This method compares the date of a stored object with the date of today from the String object. It is used by the dueToday method.
    * @param date
    * @return
    */
-  private boolean dateCompare(LocalDate date) {
-    return date.equals(LocalDate.now());
+ /* private boolean dateCompare(String date) {
+    return date.equals(String.now());
   }
-
+ */
   /***
    * The dateAccess() method simply takes an int and returns a date from a task object stored in the list of TaskManager. It is called in the insertionSort method.
    * @param w
    * @return
    */
-  private LocalDate dateAccess(int w) {
-    LocalDate date = taskStorage.get(w).getDate();
+  /*
+  private String dateAccess(int w) {
+     String date = taskStorage.get(w).getDate();
 
     return date;
   }
-
+*/
   /***
    * insertionSort method sorts the objects according to the //date from nearest to furthest in future. It is called in the add method.
    */
+  /*
   private void insertionSort() {
     for (int i = 1; i < taskStorage.size(); i++) {
       int y = i - 1;
@@ -44,11 +46,12 @@ class TaskManager implements Serializable {
       taskStorage.set(y + 1, toInsert);
     }
   }
-
+*/
   /***
    * The validateDate() method validates the format and the ranges of the user input date. It is used by the add method.
    */
-  private LocalDate validateDate() {
+  /*
+  private String validateDate() {
     String date;
     int[] userDate = { 0, 0, 0 };
     String[] dateAsString = {};
@@ -65,9 +68,9 @@ class TaskManager implements Serializable {
         && userDate[2] <= 31)));
 
     // Date validation according to numeric values of 31, 12 and a positive number for the day, the month and the year respectively.
-    return LocalDate.parse(date);
+    return String.parse(date);
   }
-
+/*
   /***
    * The userInput() method prints an expression for
    * @param expression
@@ -82,9 +85,9 @@ class TaskManager implements Serializable {
     sx.close();
     return s;
   }
-
-  private LocalTime validateTime() {
-    LocalTime timeOfTask;
+/*
+  private String validateTime() {
+    String timeOfTask;
     int hrs, min;
     do {
       do {
@@ -94,23 +97,24 @@ class TaskManager implements Serializable {
       // Likewise for minutes.
       min = Integer.parseInt(userInput("Enter the minutes: ")); 
     } while (!(min >= 0 && min <= 59));
-    // Then the integer values are arguments of the LocalTime.of() method.
-    timeOfTask = LocalTime.of(hrs, min); 
+    // Then the integer values are arguments of the String.of() method.
+    timeOfTask = String.of(hrs, min); 
     return timeOfTask; 
   }
-
+*/
   /***
    * searchStoredTask searches the memory for a stored task according to the input title. It is called in the changeDate method.
    * @param title
    */
+  /*
   private void searchStoredTask(String title) {
-    LocalDate date;
-    LocalTime time;
+    String date = "";
+    String time;
     boolean taskExists = false;
     for (Task task : taskStorage) {
       if (title.equals(task.getTitle())) {
         taskExists = true;
-        date = validateDate();
+    //    date = validateDate();
         time = validateTime();
         task.setDate(date);
         task.setTime(time);
@@ -120,26 +124,27 @@ class TaskManager implements Serializable {
       System.out.println("This task does not exist.");
     }
   }
-
+*/
   /***
    * The add method adds a new task to the list.
    */
-  public void add() {
-    String title = userInput("Enter the title of the task: ");
-    LocalDate date = validateDate();
-    LocalTime time = validateTime();
-    taskStorage.add(new Task(title, date, time));
-    insertionSort();
+  public void add(Task t) {
+  //  String title = userInput("Enter the title of the task: ");
+  //  String date = validateDate();
+   // String time = validateTime();
+    taskStorage.add(t);
+  //  insertionSort();
   }
 
   /***
    * This method changes the date of an already stored task.
    */
+  /*
   public void changeDate() { 
     String title = userInput("Enter the title of the task to change its date: ");
     searchStoredTask(title);
   }
-
+*/
   /***
    * The viewAll method for viewing all the stored tasks.
    */
@@ -152,13 +157,14 @@ class TaskManager implements Serializable {
   /***
    * The dueToday method for viewing the tasks which are due to the present day.
    */
+  /*
   public void dueToday() {
     for (Task task : taskStorage) {
       if (dateCompare(task.getDate()))
         task.print();
     }
   }
-
+*/
   /***
    * The complete method marks a task as complete.
    */
@@ -176,9 +182,7 @@ class TaskManager implements Serializable {
    * @param tm
    * @throws IOException
    */
-  public void save(TaskManager tm) throws IOException {
-    String filename = userInput("Enter the filename with the" +
-        "extension where you want your task to be saved: ");
+  public void save(TaskManager tm, String filename) throws IOException {
 
     try {
       FileOutputStream fileOutputStream = new FileOutputStream(filename);
@@ -198,10 +202,8 @@ class TaskManager implements Serializable {
    * The load() method loads the saved task from a prespecified file
    * to the running ArrayList after the program opens.
    */
-  public TaskManager load() throws IOException, ClassNotFoundException {
-    TaskManager tm = new TaskManager();
-    String filename = userInput("Enter the filename with the extension where" +
-        " you want your tasks to be loaded from: ");
+  public TaskManager load(String filename) throws IOException, ClassNotFoundException {
+    TaskManager tm = null;
 
     try {
       FileInputStream fileInputStream = new FileInputStream(filename);
