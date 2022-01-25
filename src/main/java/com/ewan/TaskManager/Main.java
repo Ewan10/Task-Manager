@@ -1,22 +1,35 @@
 package com.ewan.TaskManager;
 
-import java.io.IOException;
+//import java.io.FileNotFoundException;
+//import java.io.IOException;
 import org.apache.commons.cli.*;
 
 public class Main {
-  public static void main(String[] args){
+  public static void main(String[] args) {
     
     TaskManager T1 = new TaskManager();
     try {
+      T1.load("fileStorage.json");
+    }
+    catch(Exception e){
+        e.printStackTrace();
+        System.exit(1);
+    }
+   /*
+    try {
       T1 = T1.load("C:\\Users\\secge\\.vscode\\Java Projects\\Task-Manager\\TaskWarehouse.txt");
     }
+    
     catch(IOException ioe) {
       System.out.println("Error. The loading process failed.");
+      ioe.printStackTrace();
+      System.exit(1);
     }
     catch (ClassNotFoundException e) {
       System.out.println("Error. The requested data from the relevant file was not found.");
+      System.exit(1);
     }
-    
+    */
     Options options = new Options();
     options.addOption("a", "add", true, "add new task")
         .addOption("d","date", true, "view tasks due today")
@@ -52,10 +65,10 @@ public class Main {
     } 
     if (cmd.hasOption("save")) {
       try {
-        T1.save(T1, "TaskWarehouse.txt");  
+        T1.save("fileStorage.json");  
       }
-      catch (IOException e) {
-        System.out.println("Saving process failed.");
+      catch (Exception e) {
+        e.printStackTrace();
         System.exit(1);
       }/**/ 
     }

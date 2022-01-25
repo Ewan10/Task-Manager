@@ -2,13 +2,20 @@ package com.ewan.TaskManager;
 
 import java.util.*;
 //import java.util.regex.*;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.*;
 //import java.time.*;
+import java.lang.reflect.Type;
 
 class TaskManager implements Serializable {
   // private static final long serialversionUID = 1L;
   private List<Task> taskStorage = new ArrayList<Task>();
 
+  private List<Task> getTaskStorage() {
+      return this.taskStorage;
+  }
   /***
    *  This method compares the date of a stored object with the date of today from the String object. It is used by the dueToday method.
    * @param date
@@ -182,7 +189,7 @@ class TaskManager implements Serializable {
    * @param tm
    * @throws IOException
    */
-  public void save(TaskManager tm, String filename) throws IOException {
+/*  public void save(TaskManager tm, String filename) throws IOException {
 
     try {
       FileOutputStream fileOutputStream = new FileOutputStream(filename);
@@ -197,11 +204,50 @@ class TaskManager implements Serializable {
       System.out.println("Saving process failed. ");
     }
   }
+*/
+  public void save(String fileName) {
+        Gson jsonObject = new Gson();
+        String jsonObjectAsString = jsonObject.toJson(getTaskStorage());
 
+        try {
+            FileWriter fileWriter = new FileWriter(fileName);
+            fileWriter.write(jsonObjectAsString);
+            fileWriter.flush();
+            fileWriter.close();
+        }
+        catch(Exception e){
+          e.printStackTrace();
+          System.exit(1);
+        }
+  }
   /***
    * The load() method loads the saved task from a prespecified file
    * to the running ArrayList after the program opens.
    */
+  public void load(String fileName) {
+      String lines="";
+      String oneLine= null;
+      try {
+        BufferedReader buffRead = new BufferedReader(new FileReader(fileName));
+        while((oneLine = buffRead.readLine())!= null ){
+            lines += oneLine;
+        }
+        buffRead.close();
+      }
+      catch(FileNotFoundException e) {
+        e.printStackTrace();
+        System.exit(1);
+      }
+      catch(IOException e) {
+        e.printStackTrace();
+        System.exit(1);
+      }
+      //Use the string "lines" from the read file to recreate the list of tasks.
+      Type listType = new TypeToken<ArrayList<Task>>(){}.getType();
+      List<Task> listOfTasks = new Gson().fromJson(lines, listType);
+      this.taskStorage = listOfTasks;
+  }
+  /*
   public TaskManager load(String filename) throws IOException, ClassNotFoundException {
     TaskManager tm = null;
 
@@ -218,5 +264,6 @@ class TaskManager implements Serializable {
       System.out.println("Error. The requested data from the relevant file was not found.");
     }
     return tm;
-  }
+  }*/
+
 }
