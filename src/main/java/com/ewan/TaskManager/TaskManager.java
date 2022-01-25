@@ -95,6 +95,13 @@ class TaskManager implements Serializable {
 /*
   private String validateTime() {
     String timeOfTask;
+=======
+
+  // This is a small comment to demonstrate making a change...
+  // This is another small change for the demo
+  private LocalTime validateTime() {
+    LocalTime timeOfTask;
+>>>>>>> bbc2330b5fafaa71438f71bb437406f95046932b
     int hrs, min;
     do {
       do {
