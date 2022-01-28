@@ -1,48 +1,54 @@
 package com.ewan.TaskManager;
 
-import java.io.IOException;
 import org.apache.commons.cli.*;
 
 public class Main {
-  public static void main(String[] args) throws IOException, ClassNotFoundException {
-    TaskManager T1 = new TaskManager();
-    Options options = new Options();
-    options.addOption("add", false, "add new task");
-    options.addOption("today", false, "view tasks due today");
-    options.addOption("changeDate", false, "change the date of a task");
-    options.addOption("markAsDone", false, "mark task as complete");
-    options.addOption("view", false, "view all the tasks");
-    options.addOption("save", false, "save the tasks");
-    options.addOption("load", false, "load the tasks from the file");
-    options.addOption("exit", false, "save the progress and exit the program");
-
-    CommandLineParser parser = new DefaultParser();
+  public static void main(String[] args) {
+    
+    TaskManager taskManager = new TaskManager();
     try {
-      CommandLine cmd = parser.parse(options, args);
-      while (true) {
-        if (cmd.hasOption("view")) {
-          T1.viewAll();
-        } else if (cmd.hasOption("add")) {
-          T1.add();
-        } else if (cmd.hasOption("today")) {
-          T1.dueToday();
-        } else if (cmd.hasOption("changeDate")) {
-          T1.changeDate();
-        } else if (cmd.hasOption("markAsDone")) {
-          T1.complete();
-        } else if (cmd.hasOption("save")) {
-          T1.save(T1);
-        } else if (cmd.hasOption("load")) {
-          T1 = T1.load();
-        } else if (cmd.hasOption("exit")) {
-          T1.save(T1);
-          System.exit(0);
-        } else {
-          System.out.println("Invalid input.");
-        }
-      }
-    } catch (ParseException p) {
-      System.err.println("Parsing failed. Reason: " + p.getMessage());
+      taskManager.load("fileStorage.json");
     }
+    catch(Exception e){
+        e.printStackTrace();
+        System.exit(1);
+    }
+   
+    Options options = new Options();
+    options.addOption("a", "add", true, "add new task");
+    options.addOption("d","date", true, "view tasks due today");
+    options.addOption("t", "time", true, "change the date of a task");
+    options.addOption("v", "viewAll", false, "list all the stored tasks");
+    options.addOption("save", "save", false, "saves the stored tasks in a specified file");
+  
+    CommandLineParser parser = new DefaultParser();
+    CommandLine cmd = null;
+    String title, date, time;
+    title = "";
+    date = "";
+    try {
+        cmd = parser.parse(options, args);
+    }
+    catch (ParseException e) {
+       HelpFormatter formatter = new HelpFormatter();
+       formatter.printHelp("CLITester", options);
+       System.exit(1);
+    }
+    if (cmd.hasOption("add") && cmd.hasOption("date") && cmd.hasOption("time")) {
+        title = cmd.getOptionValue("add");
+        date = cmd.getOptionValue("date");
+        time = cmd.getOptionValue("time");
+        taskManager.add(new Task(title, date,time));
+    } 
+    if (cmd.hasOption("viewAll")) {
+      taskManager.viewAll();
+    } 
+    try {
+      taskManager.save("fileStorage.json");  
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+      System.exit(1);
+    } 
   }
 }

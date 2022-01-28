@@ -1,16 +1,14 @@
 package com.ewan.TaskManager;
 
-//import java.util.*;
 import java.io.*;
-import java.time.*;
 
 class Task implements Serializable {
     private String title;
-    private LocalDate date;
-    private LocalTime time;
+    private String date;
+    private String time;
     private String status = "";
 
-    public Task(String title, LocalDate date, LocalTime time) {
+    public Task(String title, String date, String time) {
         this.title = title;
         this.date = date;
         this.time = time;
@@ -24,15 +22,15 @@ class Task implements Serializable {
         title = title + s;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate s) {
+    public void setDate(String s) {
         date = s;
     }
 
-    public void setTime(LocalTime t) {
+    public void setTime(String t) {
         time = t;
     }
 
@@ -42,6 +40,6 @@ class Task implements Serializable {
 
     public void print() {
         System.out.println("title: " + title + status + " date: " +
-                date + " " + time);
+                date + " time:" + time);
     }
 }
