@@ -2,27 +2,35 @@ package com.ewan.TaskManager;
 
 import java.util.*;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import java.io.*;
-import java.lang.reflect.Type;
-import org.joda.time.LocalDate;
+
 import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+//import com.google.gson.reflect.TypeToken;
+import java.io.*;
+import java.lang.reflect.Type;
+
+//import java.lang.reflect.Type;
+//import org.joda.time.format.DateTimeFormat;
+//import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.LocalDate;
+
 class TaskManager {
   private final List<Task> taskStorage = new ArrayList<Task>();
-  
+ /**/ 
   private Task stringToJodaTask(String title, String dateAsText, String timeAsText) {
     DateTimeFormatter fmt = DateTimeFormat.forPattern("dd/MM/yyyy");
-    LocalDate parsedDate = LocalDate.parse(dateAsText,fmt);
+    LocalDate parsedDate = LocalDate.parse(dateAsText, fmt);
     LocalTime parsedTime = LocalTime.parse(timeAsText);
     return new Task(title, parsedDate, parsedTime);
   }
 
-  public void add(String title, String dateAsText, String timeAsText) {
-    Task t = stringToJodaTask(title, dateAsText, timeAsText);
-
+  public void add(String title, String date, String time) {
+    
+    Task t = stringToJodaTask(title, date, time);
     taskStorage.add(t);
   }
 
@@ -33,7 +41,11 @@ class TaskManager {
   }
 
   public void save(String fileName) {
-        Gson jsonObject = new LocalDateTypeAdapter().getGson();
+        Gson jsonObject = new GsonBuilder()
+                          .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+                          .registerTypeAdapter(LocalTime.class, new LocalTimeTypeAdapter())
+                          .create();
+
         String jsonObjectAsString = jsonObject.toJson(taskStorage);
 
         try {
@@ -48,7 +60,7 @@ class TaskManager {
           System.exit(1);
         }
   }
-
+  
   public void load(String file) {
   
       String lines = "";  
@@ -70,8 +82,11 @@ class TaskManager {
       }
       //Use the string "lines" from the read file to recreate the list of tasks.
       Type listType = new TypeToken<ArrayList<Task>>(){}.getType();
-      List<Task> listOfTasks = new LocalDateTypeAdapter().getGson()
-      .fromJson(lines, listType);
+      List<Task> listOfTasks = new GsonBuilder()
+                          .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+                          .registerTypeAdapter(LocalTime.class, new LocalTimeTypeAdapter())
+                          .create()
+                          .fromJson(lines, listType);
       taskStorage.addAll(listOfTasks);
   }
  }

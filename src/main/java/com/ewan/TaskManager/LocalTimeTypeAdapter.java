@@ -1,26 +1,27 @@
 package com.ewan.TaskManager;
 
 import java.lang.reflect.Type;
-import com.google.gson.*;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.joda.time.format.ISODateTimeFormat;
 
-public class LocalDateTypeAdapter implements JsonSerializer<LocalDate>,
-            JsonDeserializer<LocalDate> {
+public class LocalTimeTypeAdapter implements JsonSerializer<LocalTime>,
+            JsonDeserializer<LocalTime> {
         @Override
-        public LocalDate deserialize(JsonElement json, Type typeOfT,
+        public LocalTime deserialize(JsonElement json, Type typeOfT,
                 JsonDeserializationContext context) throws JsonParseException {
-            return LocalDate.parse(json.getAsString());
+            return LocalTime.parse(json.getAsString());
         }
 
         @Override
-        public JsonElement serialize(LocalDate src, Type typeOfSrc,
+        public JsonElement serialize(LocalTime src, Type typeOfSrc,
                 JsonSerializationContext context) {
             return new JsonPrimitive(ISODateTimeFormat
                     .dateTimeNoMillis()
