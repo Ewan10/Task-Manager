@@ -9,21 +9,20 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import org.joda.time.LocalDate;
-import org.joda.time.format.ISODateTimeFormat;
+import org.joda.time.format.DateTimeFormat;
 
 public class LocalDateTypeAdapter implements JsonSerializer<LocalDate>,
             JsonDeserializer<LocalDate> {
         @Override
         public LocalDate deserialize(JsonElement json, Type typeOfT,
                 JsonDeserializationContext context) throws JsonParseException {
-            return LocalDate.parse(json.getAsString());
+            return LocalDate.parse(json.getAsString(), DateTimeFormat.forPattern("dd/MM/yyyy"));
         }
 
         @Override
         public JsonElement serialize(LocalDate src, Type typeOfSrc,
                 JsonSerializationContext context) {
-            return new JsonPrimitive(ISODateTimeFormat
-                    .dateTimeNoMillis()
+            return new JsonPrimitive(DateTimeFormat.forPattern("dd/MM/yyyy")
                     .print(src));
         }
    

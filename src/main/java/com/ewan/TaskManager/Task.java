@@ -4,15 +4,26 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 class Task {
+    private final int identification;
     private String title;
     private LocalDate date;
     private LocalTime time;
-    private String status = "";
+    enum Status {
+        PENDING,
+        DONE,
+        UNSPECIFIED;  
+    }
+    private Status taskStatus = Status.PENDING;
 
-    public Task(String title, LocalDate date, LocalTime time) {
+    public Task( int id, String title, LocalDate date, LocalTime time) {
+        identification = id;
         this.title = title;
         this.date = date;
         this.time = time;
+    }
+
+    public int getId() {
+        return identification;
     }
 
     public String getTitle() {
@@ -31,14 +42,21 @@ class Task {
         this.date = date;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public Status getStatus() {
+        return taskStatus;
+    }
+
+    public void setStatus(Status s) {
+        taskStatus = s;
     }
 
     public void print() {
-        System.out.println("title: " + title +
-        " " + status + " " +
+        System.out.println(
+        "Task id: " + identification + " " +
+        "title: " + "\"" + title + "\"" +       
+        " " + taskStatus + " " +
         "Date: " + date +
-        " Time: " + time);
+        " Time: " + time
+        );
     }
 }

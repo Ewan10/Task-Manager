@@ -10,7 +10,8 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import org.joda.time.LocalTime;
-import org.joda.time.format.ISODateTimeFormat;
+import org.joda.time.format.DateTimeFormat;
+
 
 public class LocalTimeTypeAdapter implements JsonSerializer<LocalTime>,
             JsonDeserializer<LocalTime> {
@@ -23,8 +24,7 @@ public class LocalTimeTypeAdapter implements JsonSerializer<LocalTime>,
         @Override
         public JsonElement serialize(LocalTime src, Type typeOfSrc,
                 JsonSerializationContext context) {
-            return new JsonPrimitive(ISODateTimeFormat
-                    .dateTimeNoMillis()
+            return new JsonPrimitive(DateTimeFormat.forPattern("hh:mm")
                     .print(src));
         }
    
