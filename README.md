@@ -1,9 +1,21 @@
 # Task-Manager
 
-This application will allow the users to manage the scheduling of their personal tasks. The user will be able to add a new task each time with a title and a date.
-He will be able to change the date of a stored task, to view the tasks which are due today, to view all the tasks and to mark a task as complete. The design wiil 
-consist of two classes, a Task class, and a TaskManager class. The fields of the Task class will be title, date and status (of completion). An arrayList will be
-used by the TaskManager to store the Task objects, access and write their fields. The application will use a console text user interface. The user will be prompted 
-what to type for a certain operation e.g. to view the task which are due today he must type "today". Java's regular expressions class is used for the validation, 
-processing and comparison of the date entered from the user and the Date() object. The application will be distributed as a java file and the files of the util package 
-and regular expressions must also be downloaded.
+# Description
+
+This application will allow the users to manage the scheduling of their personal tasks. The user will be able to add a new task each time with a title and a date. He will be able to change the date of a stored task, to view the tasks which are due today, to view all the stored tasks and to change the status of a task. 
+
+For the development the IDE of VSCode will be used as a well-known reliable and lightweight package. The project will be built with Maven allowing the integration of any libraries. Also a well-known and established package for buildin java projects. There were no any special requirements for using a more sophisticated build tool. 
+
+The project will be developed according to the software design principles of readability, testability and extensibility.
+
+# Instructions of compiling the project
+
+When the project will be completed Maven will be used to compile and package the associated files in one executable file. 
+
+# Instructions of use
+
+They will be provided in due time.
+
+# Credits
+
+Contributors to this project for providing technical guidance for the design, the implementation and the functionality is Andrew Thompson (https://github.com/thompsy). 
