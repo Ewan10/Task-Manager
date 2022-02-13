@@ -12,6 +12,7 @@ import org.joda.time.LocalDate;
 
 class TaskManager {
   private final HashMap<Integer, Task> tasks = new HashMap<Integer, Task>();
+  static int idGenerator = 0;
 
   private int findMaxTaskId(HashMap<Integer, Task> map) {
     int maxId = 0;
@@ -24,8 +25,9 @@ class TaskManager {
   }
 
   public void add(String title, String date, String time) {
-
-    Task task = Task.build(title, date, time);
+    idGenerator++;
+    int id = idGenerator;
+    Task task = Task.build(id, title, date, time);
     tasks.put(task.getId(), task);
   }
 
@@ -80,14 +82,19 @@ class TaskManager {
     }
     Type mapType = new TypeToken<HashMap<Integer, Task>>() {
     }.getType();
-    HashMap<Integer, Task> mapOfTasks = new GsonBuilder()
+    HashMap<Integer, Task> loadedMap = new GsonBuilder()
         .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
         .registerTypeAdapter(LocalTime.class, new LocalTimeTypeAdapter())
         .create()
         .fromJson(lines, mapType);
 
-    tasks.putAll(mapOfTasks);
-    Task.idGenerator = findMaxTaskId(tasks);
+    if (loadedMap != null) {
+      tasks.putAll(loadedMap);
+    } else {
+      throw new NullPointerException();
+    }
+
+    TaskManager.idGenerator = findMaxTaskId(tasks);
 
     for (Task task : tasks.values()) {
       tasks.put(task.getId(), task);

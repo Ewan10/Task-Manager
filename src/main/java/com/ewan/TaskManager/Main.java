@@ -8,14 +8,13 @@ public class Main {
     TaskManager taskManager = new TaskManager();
 
     Options options = new Options();
-    options.addOption("lf", "load", true, "The name of the file for loading.");
     options.addOption("a", "add", true, "Add a new task.");
-    options.addOption("d", "date", true, "View tasks due today.");
-    options.addOption("t", "time", true, "Change the date of a task.");
+    options.addOption("d", "date", true, "Add the date for the task.");
+    options.addOption("t", "time", true, "Add the time for the task.");
     options.addOption("v", "viewAll", false, "List all the stored tasks.");
-    options.addOption("st", "status", true, "Option for changing the status of a task.");
+    options.addOption("s", "status", true, "Option for changing the status of a task.");
     options.addOption("id", "id", true, "This is the id number of the task.");
-    options.addOption("sf", "save", true, "The name of the file where the session will be saved.");
+    options.addOption("f", "file", true, "The name of the file where the session will be saved or loaded.");
 
     CommandLineParser parser = new DefaultParser();
     CommandLine cmd = null;
@@ -30,8 +29,8 @@ public class Main {
       formatter.printHelp("CLITester", options);
       System.exit(1);
     }
-    if (cmd.hasOption("lf")) {
-      String file = cmd.getOptionValue("load");
+    if (cmd.hasOption("f")) {
+      String file = cmd.getOptionValue("file");
       taskManager.load(file);
     } else {
       taskManager.load("fileStorage.json");
@@ -49,10 +48,9 @@ public class Main {
       int id = Integer.valueOf(cmd.getOptionValue("id"));
       String statusValue = cmd.getOptionValue("status");
       taskManager.updateTaskStatus(id, statusValue);
-      ;
     }
-    if (cmd.hasOption("sf")) {
-      String fileName = cmd.getOptionValue("save");
+    if (cmd.hasOption("f")) {
+      String fileName = cmd.getOptionValue("file");
       taskManager.save(fileName);
     } else
       try {
