@@ -30,8 +30,7 @@ public class Main {
       System.exit(1);
     }
     if (cmd.hasOption("f")) {
-      String file = cmd.getOptionValue("file");
-      taskManager.load(file);
+      taskManager.load(cmd.getOptionValue("file"));
     } else {
       taskManager.load("fileStorage.json");
     }
@@ -50,14 +49,9 @@ public class Main {
       taskManager.updateTaskStatus(id, statusValue);
     }
     if (cmd.hasOption("f")) {
-      String fileName = cmd.getOptionValue("file");
-      taskManager.save(fileName);
-    } else
-      try {
-        taskManager.save("fileStorage.json");
-      } catch (Exception e) {
-        e.printStackTrace();
-        System.exit(1);
-      }
+      taskManager.save(cmd.getOptionValue("file"));
+    } else {
+      taskManager.save("fileStorage.json");
+    }
   }
 }

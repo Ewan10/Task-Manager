@@ -24,10 +24,13 @@ class TaskManager {
     return maxId;
   }
 
+  public HashMap<Integer, Task> getTasks() {
+    return tasks;
+  }
+
   public void add(String title, String date, String time) {
     idGenerator++;
-    int id = idGenerator;
-    Task task = Task.build(id, title, date, time);
+    Task task = Task.build(idGenerator, title, date, time);
     tasks.put(task.getId(), task);
   }
 
@@ -82,22 +85,17 @@ class TaskManager {
     }
     Type mapType = new TypeToken<HashMap<Integer, Task>>() {
     }.getType();
-    HashMap<Integer, Task> loadedMap = new GsonBuilder()
+    HashMap<Integer, Task> loadedTasks = new GsonBuilder()
         .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
         .registerTypeAdapter(LocalTime.class, new LocalTimeTypeAdapter())
         .create()
         .fromJson(lines, mapType);
 
-    if (loadedMap != null) {
-      tasks.putAll(loadedMap);
+    if (loadedTasks != null) {
+      tasks.putAll(loadedTasks);
     } else {
-      throw new NullPointerException();
+      return;
     }
-
     TaskManager.idGenerator = findMaxTaskId(tasks);
-
-    for (Task task : tasks.values()) {
-      tasks.put(task.getId(), task);
-    }
   }
 }
