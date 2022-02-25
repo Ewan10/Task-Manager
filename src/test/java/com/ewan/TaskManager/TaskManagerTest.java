@@ -34,24 +34,21 @@ public class TaskManagerTest {
     public void shouldFailForBadlyFormattedFileOrDuplicateIds() {
         taskManager = new TaskManager();
 
-        try{
         taskManager.load(".\\resources\\Diary1.json");
-        //Condition if badly formatted. 
+        // Condition if badly formatted.
         Assertions.assertThrows(InvalidFormatting.class, () -> {
-            //The condition when the data is badly formatted.
+            // The condition when the data is badly formatted.
         });
-        throw new InvalidFormatting("Invalid file format.");
 
-        //else if -The case of duplicate ids.
-        for(int w = 0; w < taskManager.getTasks().size() -1; w++) {
-            for (int u = 0; u < taskManager.getTasks().size() -1; u++) {
+        // else if -The case of duplicate ids.
+        for (int w = 0; w < taskManager.getTasks().size() - 1; w++) {
+            for (int u = 0; u < taskManager.getTasks().size() - 1; u++) {
                 if (w != u) {
                     Assertions.assertNotEquals(taskManager.getTasks().get(u),
-                    taskManager.getTasks().get(w));
+                            taskManager.getTasks().get(w));
                 }
             }
 
-        }
         }
     }
 
