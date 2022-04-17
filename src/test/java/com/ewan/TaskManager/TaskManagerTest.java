@@ -18,10 +18,10 @@ public class TaskManagerTest {
     @Test
     public void compareLoadAndSave() {
         taskManager = new TaskManager();
-        taskManager.load(".\\resources\\Diary1.json");
-        taskManager.save(".\\resources\\Diary2.json");
+        taskManager.load("./resources/Diary1.json");
+        taskManager.save("./resources/Diary2.json");
         TaskManager taskManager2 = new TaskManager();
-        taskManager2.load(".\\resources\\Diary2.json");
+        taskManager2.load("./resources/Diary2.json");
 
         Assertions.assertEquals(taskManager2.getTasks().size(), taskManager.getTasks().size());
 
@@ -34,7 +34,7 @@ public class TaskManagerTest {
     public void shouldFailForBadlyFormattedFileOrDuplicateIds() {
         taskManager = new TaskManager();
 
-        taskManager.load(".\\resources\\Diary1.json");
+        taskManager.load("./resources/Diary1.json");
         // Condition if badly formatted.
         Assertions.assertThrows(InvalidFormatting.class, () -> {
             // The condition when the data is badly formatted.
@@ -55,7 +55,7 @@ public class TaskManagerTest {
     @Test
     public void shouldSaveStatus() {
         taskManager = new TaskManager();
-        taskManager.load(".\\resources\\Diary1.json");
+        taskManager.load("./resources/Diary1.json");
         taskManager.updateTaskStatus(1, "DONE");
         Assertions.assertEquals("DONE", taskManager.getTasks().get(1).getStatus());
     }
@@ -66,7 +66,7 @@ public class TaskManagerTest {
     public void shouldThrowFileNotFoundException() {
         taskManager = new TaskManager();
         Assertions.assertThrows(FileNotFoundException.class, () -> {
-            taskManager.load(".\\resources\\Diary0.json");
+            taskManager.load("./resources/Diary0.json");
         });
     }
 
